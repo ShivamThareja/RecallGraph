@@ -1,0 +1,183 @@
+{
+  "format": "weavy-eval/v1",
+  "name": "smoke",
+  "version": "1",
+  "description": "Synthetic, hand-written smoke dataset (2 conversations, 7 sessions, 14 questions) for exercising the eval pipeline end to end. It is NOT a benchmark: it is far too small and too easy for scores to be statistically meaningful or comparable with LoCoMo / LongMemEval results.",
+  "conversations": [
+    {
+      "id": "journal",
+      "context": "Personal journal entries written in the first person by the graph owner.",
+      "query_time": "2024-03-25T12:00:00+00:00",
+      "sessions": [
+        {
+          "id": "journal-s1",
+          "timestamp": "2024-03-01T09:00:00+00:00",
+          "text": "First day at my new job at Brightline Robotics, where I'm a firmware engineer. My manager is Priya Raman. I still live in my apartment in Porto's Bonfim district, about twenty minutes from the office by tram."
+        },
+        {
+          "id": "journal-s2",
+          "timestamp": "2024-03-05T20:00:00+00:00",
+          "text": "I adopted a rescue dog yesterday: a three-year-old greyhound named Biscuit. My sister Lena helped me pick him out at the Gaia animal shelter."
+        },
+        {
+          "id": "journal-s3",
+          "timestamp": "2024-03-12T19:30:00+00:00",
+          "text": "Priya asked me to lead the motor-controller rewrite at work. We're porting it from C to Rust. Nervous but excited. The deadline is the end of April."
+        },
+        {
+          "id": "journal-s4",
+          "timestamp": "2024-03-20T21:00:00+00:00",
+          "text": "Signed the lease and moved out of the Bonfim apartment: I now live in a small house in Matosinhos, so Biscuit finally has a garden. Lena is flying in from Berlin, where she lives, to visit me in May."
+        }
+      ],
+      "questions": [
+        {
+          "id": "journal-q1",
+          "category": "single-hop",
+          "question": "Which company did I start working at in March 2024?",
+          "answer": "Brightline Robotics",
+          "answer_keywords": ["Brightline"],
+          "evidence_sessions": ["journal-s1"],
+          "evidence_keywords": ["Brightline"]
+        },
+        {
+          "id": "journal-q2",
+          "category": "single-hop",
+          "question": "What is my dog's name?",
+          "answer": "Biscuit",
+          "answer_keywords": ["Biscuit"],
+          "evidence_sessions": ["journal-s2"],
+          "evidence_keywords": ["Biscuit"]
+        },
+        {
+          "id": "journal-q3",
+          "category": "temporal",
+          "question": "On what date did I adopt my dog?",
+          "answer": "4 March 2024 (the day before the 5 March entry that says 'yesterday')",
+          "answer_keywords": ["4 March|March 4|2024-03-04|4th of March|March 4th|04 March"],
+          "evidence_sessions": ["journal-s2"],
+          "evidence_keywords": ["Biscuit"]
+        },
+        {
+          "id": "journal-q4",
+          "category": "multi-hop",
+          "question": "Who asked me to lead the Rust rewrite, and what is their role relative to me?",
+          "answer": "Priya Raman, my manager",
+          "answer_keywords": ["Priya", "manager"],
+          "evidence_sessions": ["journal-s1", "journal-s3"],
+          "evidence_keywords": ["Priya", "manager"]
+        },
+        {
+          "id": "journal-q5",
+          "category": "knowledge-update",
+          "question": "Where do I live now?",
+          "answer": "Matosinhos (moved out of the Bonfim apartment in Porto)",
+          "answer_keywords": ["Matosinhos"],
+          "evidence_sessions": ["journal-s4"],
+          "evidence_keywords": ["Matosinhos"]
+        },
+        {
+          "id": "journal-q6",
+          "category": "multi-hop",
+          "question": "Which family member helped me choose my dog, and which city does she live in?",
+          "answer": "My sister Lena, who lives in Berlin",
+          "answer_keywords": ["Lena", "Berlin"],
+          "evidence_sessions": ["journal-s2", "journal-s4"],
+          "evidence_keywords": ["Lena", "Berlin"]
+        },
+        {
+          "id": "journal-q7",
+          "category": "single-hop",
+          "question": "What is the deadline for the motor-controller rewrite?",
+          "answer": "The end of April 2024",
+          "answer_keywords": ["April"],
+          "evidence_sessions": ["journal-s3"],
+          "evidence_keywords": ["April"]
+        },
+        {
+          "id": "journal-q8",
+          "category": "abstention",
+          "question": "What is the name of my cat?",
+          "answer": "No record: the memory mentions a dog (Biscuit), not a cat.",
+          "abstain": true
+        }
+      ]
+    },
+    {
+      "id": "platform",
+      "context": "Weekly engineering team meeting notes.",
+      "query_time": "2024-07-02T12:00:00+00:00",
+      "sessions": [
+        {
+          "id": "platform-s1",
+          "timestamp": "2024-06-03T10:00:00+00:00",
+          "text": "Platform sync. Decision: the billing service will migrate from PostgreSQL 12 to PostgreSQL 16. Owner: Tomás Ferreira. Target date: 15 July."
+        },
+        {
+          "id": "platform-s2",
+          "timestamp": "2024-06-17T10:00:00+00:00",
+          "text": "Platform sync. Tomás starts parental leave today and is out until August, so Aiko Tanaka takes over the billing migration. The target date slips to 29 July."
+        },
+        {
+          "id": "platform-s3",
+          "timestamp": "2024-07-01T10:00:00+00:00",
+          "text": "Platform sync. Incident review: last Thursday the staging cluster ran out of disk because audit logs were never rotated. Fix agreed: enable log rotation with 7-day retention."
+        }
+      ],
+      "questions": [
+        {
+          "id": "platform-q1",
+          "category": "knowledge-update",
+          "question": "Who currently owns the billing service migration?",
+          "answer": "Aiko Tanaka (took over from Tomás Ferreira)",
+          "answer_keywords": ["Aiko"],
+          "evidence_sessions": ["platform-s2"],
+          "evidence_keywords": ["Aiko"]
+        },
+        {
+          "id": "platform-q2",
+          "category": "knowledge-update",
+          "question": "What is the current target date for the billing migration?",
+          "answer": "29 July 2024 (slipped from 15 July)",
+          "answer_keywords": ["29 July|July 29|2024-07-29|29th of July|July 29th"],
+          "evidence_sessions": ["platform-s2"],
+          "evidence_keywords": ["29"]
+        },
+        {
+          "id": "platform-q3",
+          "category": "single-hop",
+          "question": "Which PostgreSQL version is the billing service migrating to?",
+          "answer": "PostgreSQL 16",
+          "answer_keywords": ["16"],
+          "evidence_sessions": ["platform-s1"],
+          "evidence_keywords": ["16"]
+        },
+        {
+          "id": "platform-q4",
+          "category": "temporal",
+          "question": "On what date did the staging cluster run out of disk?",
+          "answer": "Thursday 27 June 2024 ('last Thursday' relative to the 1 July sync)",
+          "answer_keywords": ["27 June|June 27|2024-06-27|27th of June|June 27th"],
+          "evidence_sessions": ["platform-s3"],
+          "evidence_keywords": ["disk"]
+        },
+        {
+          "id": "platform-q5",
+          "category": "multi-hop",
+          "question": "Why did the original owner of the billing migration hand it over?",
+          "answer": "Tomás Ferreira went on parental leave",
+          "answer_keywords": ["parental leave"],
+          "evidence_sessions": ["platform-s1", "platform-s2"],
+          "evidence_keywords": ["Tomás|Tomas", "parental leave"]
+        },
+        {
+          "id": "platform-q6",
+          "category": "abstention",
+          "question": "Which cloud provider hosts the billing service?",
+          "answer": "No record: the notes never mention a cloud provider.",
+          "abstain": true
+        }
+      ]
+    }
+  ]
+}
